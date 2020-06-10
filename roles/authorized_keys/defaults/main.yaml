@@ -1,0 +1,4 @@
+---
+
+authorized_keys_username: "{{ ansible_user | default('root') }}"
+authorized_keys_files_folder: "default"

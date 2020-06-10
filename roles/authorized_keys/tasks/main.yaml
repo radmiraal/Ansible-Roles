@@ -1,0 +1,23 @@
+---
+
+-
+  name: "Set authorized keys"
+  authorized_key:
+    state: present
+    user: "{{ authorized_keys_username }}"
+    key: "{{ lookup('file', item.src) }}"
+  with_filetree: '{{ authorized_keys_files_folder }}/active/'
+  when: item.state == 'file'
+  become: true
+  no_log: true
+
+-
+  name: "Remove inactive keys"
+  authorized_key:
+    state: absent
+    user: "{{ authorized_keys_username }}"
+    key: "{{ lookup('file', item.src) }}"
+  with_filetree: '{{ authorized_keys_files_folder }}/removed/'
+  when: item.state == 'file'
+  become: true
+  no_log: true
