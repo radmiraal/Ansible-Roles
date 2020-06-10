@@ -1,0 +1,7 @@
+---
+
+- include: redhat.yaml
+  when: ansible_distribution == 'CentOS'
+
+- include: debian.yaml
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'

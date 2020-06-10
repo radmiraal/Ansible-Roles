@@ -1,0 +1,43 @@
+---
+
+- name: "Install aptitude"
+  apt:
+    name:
+      - aptitude
+    cache_valid_time: 300
+    state: present
+  become: yes
+
+- name: "Run apt update"
+  apt:
+    upgrade: full
+    cache_valid_time: 300
+  become: yes
+
+- name: "Run apt autoremove"
+  apt:
+    autoremove: yes
+    cache_valid_time: 300
+  become: yes
+
+- name: "Run apt autoclean"
+  apt:
+    autoclean: yes
+    cache_valid_time: 300
+  become: yes
+
+- name: "Reboot if required"
+  block:
+    - shell: "{{ command }}"
+      loop: "{{ pre_reboot_checks | default(default_pre_reboot_checks) }}"
+      register: check_output
+      changed_when: false
+      loop_control:
+        loop_var: command
+    - stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+    - reboot:
+      when: reboot_required.stat.exists == true
+  when: automatic_reboot_enabled == true
+  become: yes

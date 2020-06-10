@@ -1,0 +1,26 @@
+---
+
+- name: "Upgrade all packages"
+  yum:
+    name: "*"
+    state: latest
+  become: yes
+
+- name: "Reboot if required"
+  block:
+    - shell: "{{ command }}"
+      loop: "{{ pre_reboot_checks | default(default_pre_reboot_checks) }}"
+      register: check_output
+      changed_when: false
+      loop_control:
+        loop_var: command
+
+    - shell: needs-restarting -r
+      register: reboot_required
+      failed_when: false
+      changed_when: false
+
+    - reboot:
+      when: reboot_required.rc == 1
+  when: automatic_reboot_enabled == true
+  become: yes
