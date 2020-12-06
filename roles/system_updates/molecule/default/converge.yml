@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include system-updates"
+      include_role:
+        name: "system-updates"

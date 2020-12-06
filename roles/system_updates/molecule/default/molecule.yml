@@ -1,0 +1,35 @@
+---
+driver:
+  name: docker
+platforms:
+  - name: centos7
+    image: radmiraal/ansible-centos:7
+    pre_build_image: true
+  - name: centos8
+    image: radmiraal/ansible-centos:8
+    pre_build_image: true
+  - name: debian8
+    image: radmiraal/ansible-debian:jessie
+    pre_build_image: true
+  - name: debian9
+    image: radmiraal/ansible-debian:stretch
+    pre_build_image: true
+  - name: debian10
+    image: radmiraal/ansible-debian:buster
+    pre_build_image: true
+  - name: ubuntu18.04
+    image: radmiraal/ansible-ubuntu:bionic-beaver
+    pre_build_image: true
+  - name: ubuntu20.04
+    image: radmiraal/ansible-ubuntu:focal-fossa
+    pre_build_image: true
+  - name: ubuntu20.10
+    image: radmiraal/ansible-ubuntu:groovy-gorilla
+    pre_build_image: true
+  - name: ubuntu21.04
+    image: radmiraal/ansible-ubuntu:hirsute-hippo
+    pre_build_image: true
+provisioner:
+  name: ansible
+verifier:
+  name: ansible
